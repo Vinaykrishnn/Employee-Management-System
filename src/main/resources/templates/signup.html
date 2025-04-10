@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+</head>
+<body>
+    <div th:fragment="section">
+        <div class="container" style="padding-left:150px">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="my-card mt-3">
+                        <div th:if="${session.message}" class="alert" th:classappend="${session.message.type}" role="alert">
+                            <p th:text="${session.message.content}"></p>
+                        </div>
+                        <h1 class="text-center">Sign Up with us!</h1>
+                        <form novalidate action="" th:action="@{/do_register}" method="post" th:object="${user}">
+                            <div class="form-group">
+                                <label for="name_field">Your Name</label>
+                                <input type="text" th:field="*{name}" name="name" class="form-control" id="name_field" placeholder="Enter your name"
+                                       th:value="${user.name}" required>
+                                <div class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email_field">Your Email</label>
+                                <input type="email" th:field="*{email}" name="email" class="form-control" id="email_field" placeholder="Enter your email"
+                                th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ''}" required th:value="${user.email}">
+                                <div class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password_field">Your Password</label>
+                                <input type="password" th:field="*{password}" name="password" class="form-control" id="password_field" placeholder="Enter your password"
+                                th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}" required>
+                                <div class="invalid-feedback" th:each="e : ${#fields.errors('password')}" th:text="${e}"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="about_field">About Yourself</label>
+                                <textarea th:field="*{about}" name="about" class="form-control" id="about_field" placeholder="Enter about yourself" rows="3"
+                                          th:value="${user.about}">
+
+                                </textarea>
+                            </div>
+                            <div class="form-group form-check text-center">
+                                <input type="checkbox" name="agreement" class="form-check-input" id="agreement" />
+                                <label for="agreement">I agree to the Terms and Conditions</label>
+                            </div>
+
+                            <div class="container text-center">
+                                <a type="submit"  href="javascript:void(0);" onclick="showLoaderAndRedirect()"  class="btn bg-primary text-white btn-block">Submit</a>
+                                <a  type="reset"  href="javascript:void(0);" onclick="showLoaderAndRedirect()"  class="btn btn-warning text-white btn-block">Reset</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</body>
+<script>
+
+      function showLoaderAndRedirect() {
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('addBtn').style.display = 'none';
+        setTimeout(function () {
+            window.location.href = "/user/add-contact";
+        }, 2000); // You can adjust the time
+    }
+
+      if (window.location.search.indexOf("success=true") !== -1) {
+           // Wait for 2 seconds and then redirect to login page
+           setTimeout(function() {
+               window.location.href = '/login';  // Redirect to login page
+           }, 2000);  // 2000ms = 2 seconds
+       }
+</script>
+</html>

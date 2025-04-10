@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{normal/base :: layout(content=~{::body})}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+    <!-- Bootstrap CSS (make sure it's included) -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+<section>
+    <div class="container">
+        <div class="card">
+            <div class="card-body my-5">
+                <div class="container text-center">
+                    <img src="" style="height:200px; width:200px" class="my_profile_picture" th:src="@{'/img/default.png'}"/>
+                </div>
+                <h1 class="text-center mt-3 text-secondary">Welcome <span th:text="${user.name}"></span></h1>
+                <h2 class="text-center mt-3 text-secondary font-weight-light">Start adding your contact</h2>
+
+                <!-- Button -->
+                <a href="javascript:void(0);" onclick="showLoaderAndRedirect()"
+                   class="btn btn-primary mt-4 text-uppercase w-100" id="addBtn">
+                    Add new Contact
+                </a>
+
+                <!-- Loader (hidden initially) -->
+                <div class="text-center mt-3" id="loader" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- JS for loader and redirect -->
+<script>
+    function showLoaderAndRedirect() {
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('addBtn').style.display = 'none';
+        setTimeout(function () {
+            window.location.href = "/user/add-contact";
+        }, 2000); // You can adjust the time
+    }
+</script>
+</body>
+</html>

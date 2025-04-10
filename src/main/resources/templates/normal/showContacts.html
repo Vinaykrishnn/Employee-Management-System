@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{normal/base :: layout(content=~{::body})}">
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title>Home</title>
+</head>
+<body>
+   <section>
+       <div class="card">
+           <div class="card-body">
+               <div class="container" th:if="${session.message}" id="message-container">
+                   <div th:classappend="${'alert-'+session.message.type}" class="alert text-center">
+                       <span th:text="${session.message.content}"></span>
+                   </div>
+               </div>
+               <div class="text-center">
+                   <h2 class="text-center">Your Contacts</h2>
+                   <div th:if="${contacts != null and #lists.isEmpty(contacts)}" class="text-center">
+                       <p>You don't have any contacts.</p>
+                   </div>
+                   <table class="table" th:unless="${#lists.isEmpty(contacts)}">
+                       <thead>
+                       <tr>
+                           <th scope="col">Contact Id</th>
+                           <th scope="col">Name</th>
+                           <th scope="col">Email</th>
+                           <th scope="col">Phone</th>
+                           <th scope="col">Action</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr th:each="c :${contacts}">
+                           <th scope="row" th:text="${c.contactId}">1</th>
+                           <td>
+                               <img src="" class="my_profile_picture" th:src="@{'/img/' + ${c.image}}" alt="profile photo"/>
+                               <span th:text="${c.name  + ' ' + c.secondName}"></span>
+                           </td>
+                           <td>
+                               <a href="#" th:href="@{'/user/contact/' + ${c.contactId}}"/>
+                               <span th:text="${c.email}"></span>
+                           </td>
+                           <td th:text="${c.phone}">@mdo</td>
+                           <th>
+                               <a th:href="@{'/user/delete/'+${c.contactId}}" th:onclick="|deleteContact(${c.contactId})|"
+                                  href="javascript:void(0);" onclick="showLoaderAndRedirect()" class="text-danger">
+                                   <button type="submit" class="btn btn-danger">
+                                    <i class="fa-solid fa-user-slash"  style="margin-right: 5px; padding: 0px"></i>
+                                   </button>
+                               </a>
+                               <form th:action="@{'/user/update-contact/' + ${c.contactId}}" method="post">
+                                   <button type="submit" class="btn btn-primary">
+                                       <i class="fa-solid fa-user-pen"></i>
+                                   </button>
+                               </form>
+
+                           </th>
+
+                           <td></td>
+                       </tr>
+                       </tbody>
+                   </table>
+                   <div th:if="${totalPages > 0}">
+                       <nav aria-label="Page navigation example">
+                           <ul class="pagination justify-content-center">
+                               <li th:if="${currentPage != 0}" class="page-item">
+                                   <a th:href="@{'/user/show-contacts/'+${currentPage-1}}" class="page-link" tabindex="-1">Previous</a>
+                               </li>
+                               <li th:classappend="${currentPage==i-1?'active':''}"
+                                   th:each="i : ${#numbers.sequence(1, totalPages)}" class="page-item">
+                                   <a th:href="@{'/user/show-contacts/'+${i-1}}" class="page-link">
+                                       <span th:text="${i}"></span>
+                                   </a>
+                               </li>
+                               <li th:if="${currentPage+1 != totalPages}" class="page-item">
+                                   <a th:href="@{'/user/show-contacts/'+${currentPage+1}}" class="page-link">Next</a>
+                               </li>
+                           </ul>
+                       </nav>
+                   </div>
+
+               </div>
+           </div>
+       </div>
+   </section>
+</body>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+        const messageBox = document.getElementById("message-container");
+        if (messageBox) {
+            setTimeout(() => {
+                messageBox.style.display = "none";
+            }, 5000); // 5000 milliseconds = 5 seconds
+        }
+    });
+
+      function deleteContact(contactId) {
+    swal({
+        title: "Are you sure?",
+        text: "You want to delete this contact?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            window.location.href = "/user/delete/" + contactId;
+        } else {
+            swal("Your contact is safe!");
+        }
+    });
+}
+
+// Auto-hide alerts after 5 seconds
+setTimeout(function () {
+    let alert = document.querySelector('.alert');
+    if (alert) {
+        alert.style.transition = "opacity 0.5s";
+        alert.style.opacity = "0";
+        setTimeout(() => alert.remove(), 500);
+    }
+}, 5000);  // 5 seconds delay
+
+</script>
+</html>
