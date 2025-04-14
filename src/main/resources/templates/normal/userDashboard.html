@@ -10,6 +10,11 @@
 <section>
     <div class="container">
         <div class="card">
+            <div class="container" th:if="${session.message}" id="message-container">
+                <div th:classappend="${'alert-'+session.message.type}" class="alert text-center">
+                    <span th:text="${session.message.content}"></span>
+                </div>
+            </div>
             <div class="card-body my-5">
                 <div class="container text-center">
                     <img src="" style="height:200px; width:200px" class="my_profile_picture" th:src="@{'/img/default.png'}"/>
@@ -46,6 +51,15 @@
             window.location.href = "/user/add-contact";
         }, 2000); // You can adjust the time
     }
+
+    setTimeout(() => {
+        const msgBox = document.getElementById("message-container");
+        if (msgBox) {
+            msgBox.style.transition = "opacity 0.5s ease";
+            msgBox.style.opacity = "0";
+            setTimeout(() => msgBox.style.display = "none", 500); // remove from layout
+        }
+    }, 4000);
 </script>
 </body>
 </html>

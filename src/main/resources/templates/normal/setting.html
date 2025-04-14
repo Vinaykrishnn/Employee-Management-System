@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{normal/base :: layout(content=~{::body})}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Settings</title>
+    <!-- Bootstrap CSS (make sure it's included) -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col col-md-12">
+                    <div class="card">
+                        <div class="container" th:if="${session.message}" id="message-container">
+                            <div th:classappend="${'alert-'+session.message.type}" class="alert text-center">
+                                <span th:text="${session.message.content}"></span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="text-center my-3">Change Password</h3>
+                            <hr>
+                            <form th:action="@{/user/change-password}" method="post">
+                                <div class="form-group text-center">
+                                    <input type="password" name="oldPassword" onclick="togglePassword('oldPassword')" placeholder="Enter old password" class="form-control">
+                                </div>
+                                <div class="form-group text-center">
+                                    <input type="password" name="newPassword" onclick="togglePassword('newPassword')" placeholder="Enter new password" class="form-control">
+                                </div>
+                                <div class="container text-center">
+                                    <button type="submit" class="btn btn-success">Change Password</button>
+                                    <button type="reset" class="btn btn-alert">Reset</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+  function togglePassword(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+  }
+
+   setTimeout(() => {
+        const msgBox = document.getElementById("message-container");
+        if (msgBox) {
+            msgBox.style.transition = "opacity 0.5s ease";
+            msgBox.style.opacity = "0";
+            setTimeout(() => msgBox.style.display = "none", 500); // remove from layout
+        }
+    }, 4000);
+</script>
+</html>

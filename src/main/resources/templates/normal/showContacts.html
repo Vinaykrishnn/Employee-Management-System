@@ -16,6 +16,12 @@
                </div>
                <div class="text-center">
                    <h2 class="text-center">Your Contacts</h2>
+                   <div class="search-container my-3">
+                       <div class="search-box w-100 position-relative">
+                           <input onkeyup="search()" id="search-input" type="text" class="form-control w-100" placeholder="Search your contacts"/>
+                            <div class="search-result mt-2" id="search-result"></div>
+                       </div>
+                   </div>
                    <div th:if="${contacts != null and #lists.isEmpty(contacts)}" class="text-center">
                        <p>You don't have any contacts.</p>
                    </div>

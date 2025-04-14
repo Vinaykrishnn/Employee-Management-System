@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Verify OTP</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
+    <style>
+        .otp-container {
+            margin-top: 80px;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <div class="container otp-container">
+        <div class="card shadow">
+            <div class="card-body">
+
+                <div class="alert alert-success text-center mt-3" role="alert">
+                    We have successfully sent OTP to your registered Email
+                </div>
+
+                <form th:action="@{/send-otp}" method="post">
+                    <div class="form-group">
+                        <input name="otp" type="text" placeholder="Enter your OTP" class="form-control" required>
+                    </div>
+                    <div class="container text-center">
+                        <button class="btn btn-success">Verify OTP</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

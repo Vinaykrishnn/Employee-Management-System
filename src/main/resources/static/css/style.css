@@ -164,3 +164,31 @@ textarea {
     border-radius: 50%;
     border: 1px solid black;
 }
+
+.search-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.search-box {
+  width: 100%;
+  max-width: 600px;
+  position: relative; /* 🟢 Needed for dropdown to align with input */
+}
+
+.search-result {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 999;
+  display: none;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}

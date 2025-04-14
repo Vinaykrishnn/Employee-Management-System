@@ -2,6 +2,7 @@ package com.smart.entities;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -36,6 +37,7 @@ public class Contacts {
 	private String description;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Users user;
 
 	@Transient
