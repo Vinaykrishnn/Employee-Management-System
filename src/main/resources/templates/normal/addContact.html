@@ -12,11 +12,6 @@
 <body>
 <section>
     <div class="card mr-3 ml-3">
-
-
-
-
-        <!--        <th:block th:text="${#session.removeAttribute('message')}"></th:block>-->
         <div class="card-body">
             <h1 class="text-center">Add Contact</h1>
 
@@ -30,10 +25,7 @@
                                     <span th:text="${session.message.content}"></span>
                                 </div>
                             </div>
-<!--                            <th:block th:if="${session.message}" th:text="${#session.removeAttribute('message')}"></th:block>-->
-<!--                            <div th:if="${session.message}" class="alert" th:classappend="${session.message.type}" role="alert">-->
-<!--                                <p th:text="${session.message.content}"></p>-->
-<!--                            </div>-->
+
                             <!-- First Name -->
                             <div class="input-group mt-3" style="width: 100%;">
                                 <div class="input-group-prepend">
@@ -96,8 +88,8 @@
 
                             <!-- Description -->
                             <div class="input-group mt-3">
-                                    <textarea name="description" id="description" class="form-control"
-                                              rows="3" placeholder="Enter Description" ></textarea>
+                                <textarea name="description" id="description" class="form-control"
+                                          rows="3" placeholder="Enter Description"></textarea>
                             </div>
 
                             <!-- Image Upload -->
@@ -106,25 +98,12 @@
                                 <label class="custom-file-label" for="profileImage">Choose image</label>
                             </div>
 
-                            <!-- Loader (Initially Hidden) -->
-                            <div id="loader" style="display: none; position: fixed; top: 0; left: 0;
-    width: 100vw; height: 100vh; background: rgba(255,255,255,0.8);
-    z-index: 9999; display: flex; justify-content: center; align-items: center;">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-
-
-                            <!-- Save Button -->
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-outline-primary" onclick="showLoader()">Save Contact</button>
-                            </div>
-
                             <!-- Save Button -->
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-outline-primary" >Save Contact</button>
                             </div>
+
+                            <!-- Duplicate Save Button Removed -->
 
                         </form>
                     </div>
@@ -133,38 +112,5 @@
         </div>
     </div>
 </section>
-
-    <!-- Place the first <script> tag in your HTML's <head> -->
-<script src="https://cdn.tiny.cloud/1/rk0q4orarmo6ekj8yamstzxcmg4divaoci0b1luo48c6p4qd/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
-<!-- Place the following <script> and <textarea> tags your HTML's <body> -->
-<script>
-   function showLoader() {
-        document.getElementById("loader").style.display = "flex";
-        return true; // important: allow form submission to continue
-    }
-tinymce.init({
-    selector: 'textarea',
-    plugins: [
-        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
-    ],
-    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-    tinycomments_mode: 'embedded',
-    tinycomments_author: 'Author name',
-    mergetags_list: [
-        { value: 'First.Name', title: 'First Name' },
-        { value: 'Email', title: 'Email' },
-    ],
-    setup: function (editor) {
-        editor.on('change', function () {
-            editor.save(); // Sync TinyMCE content to the hidden <textarea>
-        });
-    },
-    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-});
-
-</script>
-
 </body>
 </html>

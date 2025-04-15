@@ -82,8 +82,8 @@ public class ForgotController {
     @PostMapping("/verify-otp")
     public String verifyOTP(@RequestParam("otp") int enteredOtp, HttpSession session, Model model) {
         int expectedOtp = (int) session.getAttribute("myotp");
-//        String email = (String) session.getAttribute("email");
-//        System.out.println("EMAIL from form: " + email);
+        String email = (String) session.getAttribute("email");
+        System.out.println("EMAIL from form: " + email);
 
         if (expectedOtp == enteredOtp) {
             // OTP matched
@@ -92,6 +92,7 @@ public class ForgotController {
             model.addAttribute("error", "Invalid OTP! Please try again.");
             return "VerifyOtp";
         }
+//        return "changePassword";
     }
 
     @Autowired
@@ -123,7 +124,7 @@ public class ForgotController {
         this.userRepository.save(currentUser);
 
         session.setAttribute("message", new Message("Your Password has been changed successfully!", "success"));
-        return "redirect:/signin";
+        return "redirect:/login";
     }
 
 
