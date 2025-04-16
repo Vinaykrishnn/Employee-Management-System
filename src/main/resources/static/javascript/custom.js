@@ -41,3 +41,64 @@ const search = () => {
         });
     }
 };
+
+//first request to server to create request
+const paymentStart = () => {
+    let amount = 49;
+
+    $.ajax({
+        url: '/user/create_order',
+        data: JSON.stringify({ amount: amount, info: 'order_request' }),
+        contentType: 'application/json',
+        type: 'POST',
+        dataType: 'json',
+        success: function (response) {
+            if (response.status === "created" || response.id) {
+                let options = {
+                    key: "rzp_test_FPqEVMGqTcYdb5", // your Razorpay key
+                    amount: response.amount,       // in paisa
+                    currency: "INR",
+                    name: "Smart Contact Manager",
+                    description: "Premium Membership",
+                    image: "", // optional logo
+                    order_id: response.id,
+
+                    // ✅ YOUR HANDLER HERE
+                    handler: function (response) {
+                        alert("Congrats! Payment Successful");
+
+                        // Optional: log payment IDs
+                        console.log("Payment ID:", response.razorpay_payment_id);
+                        console.log("Order ID:", response.razorpay_order_id);
+
+                        // AJAX to update user premium status
+                        $.ajax({
+                            url: '/user/update-premium-status',
+                            type: 'POST',
+                            success: function (res) {
+                                alert("✅ Premium activated! Please reload or click Add Contact again.");
+                            },
+                            error: function (err) {
+                                alert("❌ Error activating premium on server.");
+                            }
+                        });
+                    },
+
+                    prefill: {
+                        name: "", email: "", contact: ""
+                    },
+                    theme: {
+                        color: "#3399cc"
+                    }
+                };
+
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+            }
+        },
+        error: function (error) {
+            console.log(error);
+            alert("❌ Something went wrong while creating the order");
+        }
+    });
+};

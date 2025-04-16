@@ -8,12 +8,14 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
+import com.razorpay.*;
 import com.smart.dao.ContactRepository;
 import com.smart.entities.Contacts;
 import com.smart.helper.Message;
 import jakarta.servlet.http.HttpSession;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
@@ -245,4 +247,26 @@ public class UserController {
 
         return "redirect:/user/index";
     }
+
+    //creating order for payment
+    @PostMapping("/create_order")
+    @ResponseBody
+    public String createOrder(@RequestBody Map<String,Object> data) throws RazorpayException {
+        System.out.println("Received order data: " + data);
+
+        // Ignore user input — use fixed amount ₹49
+        int amount = 49;
+
+        var client = new RazorpayClient("rzp_test_FPqEVMGqTcYdb5", "FJutOXNrBzsIFZ1A2KyFDRsm");
+
+        JSONObject object = new JSONObject();
+        object.put("amount", amount * 100); // in paise
+        object.put("currency", "INR");
+        object.put("receipt", "txn_" + System.currentTimeMillis());
+
+        Order order = client.orders.create(object);
+        System.out.println("Created order: " + order);
+        return order.toString();
+    }
+
 }
